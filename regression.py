@@ -3,13 +3,13 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import RadioButtons, Button
 
 N_PARAMETERS = 10
-LEARNING_RATE = 0.04
+LEARNING_RATE = 0.08
 N_DATA = 9
 show_basis = True
 
 # input variable
 x = np.random.sample(N_DATA) * 10
-# target variable
+# target variable. The target variable consistis of the sin function plus gaussian noise.
 t = np.sin(x) + np.random.normal(0, 0.1, N_DATA)
 
 w = np.ones(N_PARAMETERS)
@@ -37,6 +37,9 @@ def gradient_dsc_step(basis):
     gradient = (t - (w @ basis(x))) @ np.transpose(basis(x))
     w += LEARNING_RATE * gradient
 
+
+
+# interface shit
 
 fig, ax = plt.subplots()
 plt.subplots_adjust(right=0.7)
