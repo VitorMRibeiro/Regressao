@@ -25,17 +25,18 @@ dado um valor de \(\bf x\) que não necessariamente está presente nas observaç
 quer-se encontrar uma função \( y(\textbf{x}) \) que associa cada valor possível de \(\bf x\) a uma previsão de
 \(t\).
 
-A função \( y(\textbf{x}) \) pode ser encontrada através do ajuste de parâmetros. Considere \( \textbf{w} \) como um vetor
-de parâmetros ajustáveis; os valores finais dos parâmetros ajustáveis \( \textbf{w}_f \) devem ser escolhidos
-de maneira que, a função \( y(\textbf{x}) = y(\textbf{x}, \textbf{w}_f) \), minimize (ou quase isso) o valor de \( \mathcal{L}(y) \), onde
-\( \mathcal{L} \) é uma função de perda adequada. A função de perda \( \mathcal{L} \) é o criterio
-pelo qual se julga o quão adequadas são as previsões de \(y\) dado o conjunto de dados.
+A função \( y(\textbf{x}) \) pode ser encontrada através do ajuste de parâmetros de uma função 
+\( y(\textbf{x}, \textbf{w}) \), onde \( \textbf{w} \) é um vetor de parâmetros ajustáveis. Os valores
+finais dos parâmetros ajustáveis \( \textbf{w}_f \) devem ser escolhidos de maneira a minimizar
+(ou quase isso) o valor de \( \mathcal{L}(\textbf{w}) \), onde \( \mathcal{L} \) é uma função de perda
+adequada. A função de perda \( \mathcal{L} \) é o criterio pelo qual se julga o quão adequadas são as
+previsões de \( y(\textbf{x}) = y(\textbf{x}, \textbf{w}_f) \) dado o conjunto de dados.
 
 O método pelo qual os parâmetros ajustáveis são atualizados aqui é o da \emph{descida de gradiente}, onde os parâmetros
 são modificados de maneira iterativa na direção do negativo do gradiente da função de perda,
-\[ \textbf{w}_{n + 1} = \textbf{w}_n - \lambda \nabla \mathcal{L}(y) \]
+\[ \textbf{w}_{n + 1} = \textbf{w}_n - \lambda \nabla \mathcal{L}(\textbf{w}) \]
 ou seja, a cada passo os parâmetros ajustáveis \( \textbf{w} \) são modificados de maneira a diminuir o valor da
-função de perda \( \mathcal{L}(y) \).
+função de perda \( \mathcal{L}(\textbf{w}) \).
 
 \section{Modelos Lineares de Regressão}
 
@@ -50,13 +51,13 @@ usando notação vetorial, assumindo que \( \phi_0 = 1 \).
 A função de perda utilizada aqui é a soma dos quadrados dos erros, isto é, as diferenças entre as previsões do modelo e o
 valor real das observações \( t_n - y(\textbf{x}_n, \textbf{w}) \) são elevadas ao quadrado e somadas, por todas as instâncias
 de observação, para gerar um valor que representa o quão adequada é a escolha de valores para \(\textbf{w}\).
-\[ \mathcal{L}(y(\textbf{w})) = 1/2 \sum_{n=1}^{N} \{ t_n - y(\textbf{x}_n, \textbf{w})\}^2 \]
+\[ \mathcal{L}(\textbf{w}) = 1/2 \sum_{n=1}^{N} \{ t_n - y(\textbf{x}_n, \textbf{w})\}^2 \]
 onde \(N\) é a quantidade de observações. Tal escolha de função de perda é justificada se assumirmos que os dados observados
 são gerados a partir de uma função determinística somada a um ruído gaussiano.
 
 Essa escolha de função de perda, combinada ao fato de \( y(\textbf{x}, \textbf{w}) = \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \) ser linear
 em relação à \( \textbf{w} \), nos leva à sequinte equação para o gradiente da função de perda
-\[ \nabla \mathcal{L}(y(\textbf{w})) = \sum_{n=1}^{N} \{ t_n - \textbf{w}^T \boldsymbol{\phi}(\textbf{x}_n) \} \boldsymbol{\phi}(\textbf{x}_n)^T \].
+\[ \nabla \mathcal{L}(\textbf{w}) = \sum_{n=1}^{N} \{ t_n - \textbf{w}^T \boldsymbol{\phi}(\textbf{x}_n) \} \boldsymbol{\phi}(\textbf{x}_n)^T \].
 
 \section{Referências}
 
