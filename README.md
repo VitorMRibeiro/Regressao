@@ -1,6 +1,6 @@
-# Regressao
-Modelos lineares de regressão com descida de gradiente
-
+# Modelos lineares de regressão com descida de gradiente
 ![Demo](/demo.gif)
 
-![Descricao](/descricao.pdf)
+# Descrição Matematica
+![Descricao](/descricao/descricao_page-0001.jpg)
+![Descricao](/descricao/descricao_page-0002.jpg)
