@@ -13,7 +13,7 @@ x = np.random.sample(N_DATA) * 10
 # target variable. The target variable consistis of the sin function plus gaussian noise.
 t = np.sin(x) + np.random.normal(0, 0.2, N_DATA)
 
-w = np.zeros(N_PARAMETERS)
+w = np.ones(N_PARAMETERS)
 
 def polinomial_basis(x):
    return np.array(list(map(lambda i: x**i, np.arange(N_PARAMETERS))))
@@ -33,24 +33,11 @@ t /= max_t
 max_x = max(x) #normalizing the data
 x /= max_x
 
-def curv_mat(b):     
-    dgtm = 0.00000001 # dont grow too much parameter
-    return np.fromfunction(lambda i, j: dgtm * ((j**2-j)*(i**2-i)*b**(j+i-3)) / (j*i-2*i-2*j+4.9999), [N_PARAMETERS, N_PARAMETERS])
 
 def gradient_dsc_step(basis):
     global w
-    lambd = 0.0005 * reg_slider.val
-
-    smotherizer = np.zeros(N_PARAMETERS)
-    if basis == polinomial_basis:
-        #print("0: \n", curv_mat(0.0001))
-        #print("10: \n", w @ curv_mat(10))
-        smotherizer = lambd * (w @ curv_mat(8))
-       
     gradient = (t - (w @ basis(x))) @ np.transpose(basis(x))
-    print(lambd * smotherizer)
-    w += LEARNING_RATE * ( gradient - lambd * smotherizer )
-
+    w += LEARNING_RATE * ( gradient )
 
 
 # interface shit
@@ -75,9 +62,6 @@ step_button = Button(btn_axes, 'step')
 
 btn1000_axes = plt.axes([0.75, 0.4, 0.2, 0.06])
 step1000_button = Button(btn1000_axes, '1000 steps')
-
-slider_axes = plt.axes([0.2, 0.08, 0.65, 0.04])
-reg_slider = Slider(slider_axes, 'regularization stenght', valmin=-1, valmax=20, valinit=1)
 
 def change_basis_function(label):
     global basis_function
