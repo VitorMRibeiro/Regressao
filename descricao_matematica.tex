@@ -18,7 +18,7 @@ Exemplos:
 
 Este texto é um resumo de alguns conceitos sobre regressão apresentados no livro \emph{Pattern Recognition and Machine Learning},
 e a documentação de algumas ideias que eu tive sobre como gerar curvas de regressão suaves minimizando, além
-do erro entre as predições e os dados, a derivada segunda da curva de regressão. O texto serve à quem
+do erro entre as predições e os dados, a derivada segunda da curva de regressão. O texto serve a quem
 desejar compreender os algorítimos implementados aqui, e a mim como referência futura.
 
 \section{Regressão}
@@ -51,7 +51,7 @@ pode ser encontrada, como será visto mais adiante.
 
 Os modelos lineares de regressão são aqueles cuja função \( y(\textbf{x}, \textbf{w}) \) é linear em relação aos parâmetros
 ajustáveis \( \textbf{w} \), o que não quer dizer que \( y(\textbf{x}, \textbf{w}) \) seja necessariamente linear com relação
-à \( \textbf{x} \). No geral, \( y(\textbf{x}, \textbf{w}) \) é uma combinação linear de \emph{basis functions}
+a \( \textbf{x} \). No geral, \( y(\textbf{x}, \textbf{w}) \) é uma combinação linear de \emph{basis functions}
 \( \phi(\textbf{x}) \), funções de \( \textbf{x} \) que podem ou não ser lineares,
 \[ y(\textbf{x}, \textbf{w}) = w_0 + \sum_{i=1}^{M-1} w_i \phi_i(\textbf{x}_n) \]
 onde M é a quantidade de parâmetros ajustáveis. A equação anterior pode ser simplificada para \( \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \)
@@ -66,43 +66,46 @@ são gerados a partir de uma função determinística somada a um ruído gaussia
 são da forma \( t = \mathcal{N}(t | sin(x), \sigma) \).
 
 Essa escolha de função de perda, combinada ao fato de \( y(\textbf{x}, \textbf{w}) = \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \) ser linear
-em relação à \( \textbf{w} \), nos leva à seguinte equação para o gradiente da função de perda
+em relação a \( \textbf{w} \), nos leva a seguinte equação para o gradiente da função de perda
 \[ \nabla \mathcal{L}(\textbf{w}) = \sum_{n=1}^{N} \{ t_n - \textbf{w}^T \boldsymbol{\phi}(\textbf{x}_n) \} \boldsymbol{\phi}(\textbf{x}_n)^T \]
 
 Seja
 \[ \boldsymbol{\Phi} = \begin{bmatrix}
-\phi_0(x_0) & \phi_1(x_0) & \dotsb & \phi_{M-1}(x_0) \\
-\phi_0(x_1) & \phi_1(x_1) & \dotsb & \phi_{M-1}(x_1) \\
-\vdots & \vdots & \ddots & \vdots \\
-\phi_0(x_n) & \phi_1(x_n) & \dotsb & \phi_{M-1}(x_n)
-\end{bmatrix},
+        \phi_0(x_0) & \phi_1(x_0) & \dotsb & \phi_{M-1}(x_0) \\
+        \phi_0(x_1) & \phi_1(x_1) & \dotsb & \phi_{M-1}(x_1) \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \phi_0(x_n) & \phi_1(x_n) & \dotsb & \phi_{M-1}(x_n)
+    \end{bmatrix},
 \]
 a equação anterior para o gradiente da função de perda pode ser reescrita da seguinte maneira:
 \[
-\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi}
+    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi}
 \]
 expandindo as matrizes,
 \[
-\nabla \mathcal{L}(\textbf{w}) =
-\begin{bmatrix} t_0 - \textbf{w}^T \boldsymbol{\phi}(x_0), \dotsb, t_n - \textbf{w}^T \boldsymbol{\phi}(x_n)\end{bmatrix}
-\begin{bmatrix}
-\phi_0(x_0) & \dotsb & \phi_{M-1}(x_0) \\
-\vdots & \ddots & \vdots \\
-\phi_0(x_n) & \dotsb & \phi_{M-1}(x_n)
+    \nabla \mathcal{L}(\textbf{w}) =
+    \begin{bmatrix} t_0 - \textbf{w}^T \boldsymbol{\phi}(x_0), \dotsb, t_n - \textbf{w}^T \boldsymbol{\phi}(x_n)\end{bmatrix}
+    \begin{bmatrix}
+        \phi_0(x_0) & \dotsb & \phi_{M-1}(x_0) \\
+        \vdots & \ddots & \vdots \\
+        \phi_0(x_n) & \dotsb & \phi_{M-1}(x_n)
 \end{bmatrix}
 \]
-fazendo o gradiente da função de perda igual à zero temos,
+fazendo o gradiente da função de perda igual a zero temos,
 \[
-(\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} = 0
+    (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} = 0
 \]
 \[
-\textbf{t}^T \boldsymbol{\Phi} - \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = 0
+    \textbf{t}^T \boldsymbol{\Phi} - \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = 0
 \]
 \[
-\textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = \textbf{t}^T \boldsymbol{\Phi}
+    \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = \textbf{t}^T \boldsymbol{\Phi}
 \]
 \[
-\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^T
+    \boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}
+\]
+\[
+    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^T \textbf{t}
 \]
 uma fórmula fechada para os valores ótimos de \( \textbf{w} \).
 
@@ -110,7 +113,7 @@ uma fórmula fechada para os valores ótimos de \( \textbf{w} \).
 
 Se o modelo sendo ajustado é flexível demais para a quantidade de dados disponíveis, o resultado
 é uma curva cheia de mudanças bruscas que falha em capturar o padrão principal presente nos dados, pois,
-sendo flexível demais, se adapta ao ruído nos dados o que faz ofuscar o padrão geral. Esse problema é
+sendo flexível demais, se adapta ao ruído nos dados, o que faz ofuscar o padrão geral. Esse problema é
 denominado \emph{overfitting}.
 
 Uma maneira de lidar com o problema de \emph{overfitting} é a penalização de valores muito grandes para
@@ -121,21 +124,21 @@ onde \( \lambda \) é o coeficiente de regularização, que controla a força da
 
 Da adição do fator do termo de regularização na função de perda, resulta o seguinte gradiente
 \[
-\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T
+    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T
 \]
 A vantagem de se utilizar a soma dos quadrados como termo de regularização é que a função de perda resultante
 ainda é uma função quadrática do vetor de parâmetros \( \textbf{w} \), portanto, possui formula fechada para
 os valores ótimos de \( \textbf{w} \)
 \begin{gather}
-\nonumber
-(\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T = 0              \\ \nonumber
-\textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \textbf{w}^T = \textbf{t}^T \boldsymbol{\Phi}  \\
-\boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}      \\ \nonumber
-\boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda I_M \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}  \\ \nonumber
-(\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M) \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}
+    \nonumber
+    (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T = 0              \\ \nonumber
+    \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \textbf{w}^T = \textbf{t}^T \boldsymbol{\Phi}  \\
+    \boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}      \\ \nonumber
+    \boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda I_M \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}  \\ \nonumber
+    (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M) \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}
 \end{gather}
 \begin{equation}
-\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M)^{-1} \boldsymbol{\Phi}^T \textbf{t}
+    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M)^{-1} \boldsymbol{\Phi}^T \textbf{t}
 \end{equation}
 
 A equação (2) contém um erro de sinal, por algum motivo o resultado que segue do desenvolvimento em (1) tem o termo
@@ -146,9 +149,9 @@ importância, visto que o termo já esta sendo multiplicado por um fator \( \lam
 
 Me veio a ideia de que as curvas de regressão poderiam ser feitas mais suaves se minimizarmos, além do erro, a derivada
 de segunda ordem da curva \( y(\textbf{x}, \textbf{w}) = \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \). Para tal, adiciona-se
-o seguinte termo à função de perda
+o seguinte termo a função de perda
 \begin{equation}
-\int_{a}^{b} \bigg( \frac{d^2}{dx^2} [ \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) ] \bigg)^2 dx
+    \int_{a}^{b} \bigg( \frac{d^2}{dx^2} [ \textbf{w}^T \boldsymbol{\phi}(x) ] \bigg)^2 dx
 \end{equation}
 o intervalo \( [a, b] \) é o intervalo relevante para a regressão.
 
@@ -158,29 +161,29 @@ invés do quadrado; o quadrado é mais coveniente, no entanto.
 
 Da adição de termo (3) na função de perda resulta
 \begin{equation}
-\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T \boldsymbol{\Phi}''
+    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T \boldsymbol{\Phi}''
 \end{equation}
 onde
 \[
 \boldsymbol{\Phi}'' =
-\begin{bmatrix}
-\int \phi''_0(x) \phi''_0(x) dx & \int \phi''_0(x) \phi''_1(x) dx & \dotsb & \int \phi''_0(x) \phi''_n(x) dx \\
-\int \phi''_1(x) \phi''_0(x) dx & \int \phi''_1(x) \phi''_1(x) dx & \dotsb & \int \phi''_0(x) \phi''_0(x) dx \\
-\vdots & \vdots & \ddots & \vdots \\
-\int \phi''_n(x) \phi''_0(x) dx & \int \phi''_n(x) \phi''_1(x) dx & \dotsb & \int \phi''_n(x) \phi''_n(x) dx
-\end{bmatrix}
+    \begin{bmatrix}
+        \int \phi''_0(x) \phi''_0(x) dx & \int \phi''_0(x) \phi''_1(x) dx & \dotsb & \int \phi''_0(x) \phi''_n(x) dx \\
+        \int \phi''_1(x) \phi''_0(x) dx & \int \phi''_1(x) \phi''_1(x) dx & \dotsb & \int \phi''_1(x) \phi''_n(x) dx \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \int \phi''_n(x) \phi''_0(x) dx & \int \phi''_n(x) \phi''_1(x) dx & \dotsb & \int \phi''_n(x) \phi''_n(x) dx
+    \end{bmatrix}
 \]
 
 De maneira similar aos casos anteriores, uma fórmula fechada para \( \textbf{w} \) pode ser encontrada
 \[
-\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \boldsymbol{\Phi}'' )^{-1} \boldsymbol{\Phi}^T \textbf{t}
+    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \boldsymbol{\Phi}'' )^{-1} \boldsymbol{\Phi}^T \textbf{t}
 \]
-como em (1) essa equação também provavelmente tem um erro de sinal.
+como em (2) essa equação também provavelmente tem um erro de sinal.
 
-A título de exemplo, quando as bases são polinômios \( \phi_i(x) = x^i \) os elementos \( \phi''_{i, j} \) de \( \boldsymbol{\Phi}'' \)
+A título de exemplo, quando as bases são polinômios \( \phi_i(x) = x^i \) os elementos \( \phi''_{i j} \) de \( \boldsymbol{\Phi}'' \)
 são
 \[
-\phi''_{i, j} = \Bigg(\frac{(j^2 - j)(i^2 - i)x^{i+j-3}}{i+j-3} \Bigg) \biggr\rvert_{a}^{b}
+    \phi''_{i j} = \Bigg(\frac{(j^2 - j)(i^2 - i)x^{i+j-3}}{i+j-3} \Bigg) \biggr\rvert_{a}^{b}
 \]
 
 \section{Referências}
