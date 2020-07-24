@@ -36,7 +36,8 @@ x /= max_x
 
 def gradient_dsc_step(basis):
     global w
-    gradient = (t - (w @ basis(x))) @ np.transpose(basis(x))
+    phi = np.transpose(basis(x))
+    gradient = (t - (w @ basis(x))) @ phi
     w += LEARNING_RATE * ( gradient )
 
 
