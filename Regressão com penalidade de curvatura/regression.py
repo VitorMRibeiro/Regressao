@@ -49,7 +49,7 @@ def generate_curvature_matrix(a, b):
         no such analytical form exists, and a numerical method is needed. """
 
     if basis_function == 'polynomial':
-        return 1/100 * np.fromfunction(lambda i, j: (j**2-j)*(i**2-i)*8**(i+j-3) / np.maximum(i+j-3, 1), [N_PARAMETERS, N_PARAMETERS])
+        return  np.fromfunction(lambda i, j: (j**2-j)*(i**2-i)*10**(i+j-3) / np.maximum(i+j-3, 1), [N_PARAMETERS, N_PARAMETERS])
     if basis_function == 'gaussian':
         gaussian_curvature = lambda i, j, x: (400*(x-i)**2-1)*(400*(x-j)**2-1)*np.exp(-200*(x-i)**2-200*(x-j)**2)        
         curvature_matrix = np.zeros([N_PARAMETERS, N_PARAMETERS])
@@ -68,8 +68,6 @@ def pseudo_inv_fit(basis):
     phi = np.transpose(basis(x))
     phi_t = basis(x)
 
-    print('real regularization strenght: ', regularization_strenght)
-    
     if(regularized):
         if(reg_type == 'regularization'):
             w = np.linalg.inv(regularization_strenght * np.identity(N_PARAMETERS) + (phi_t @ phi) ) @ phi_t @ t
