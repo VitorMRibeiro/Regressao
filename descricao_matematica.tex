@@ -19,13 +19,13 @@ Exemplos:
 Este texto é um resumo de alguns conceitos sobre regressão apresentados no livro \emph{Pattern Recognition and Machine Learning},
 e a documentação de algumas ideias que eu tive sobre como gerar curvas de regressão suaves minimizando, além
 do erro entre as predições e os dados, a derivada segunda da curva de regressão. O texto serve à quem
-desejar compreender os algoritimos implementados aqui, e à mim como referencia futura.
+desejar compreender os algorítimos implementados aqui, e a mim como referência futura.
 
 \section{Regressão}
 
-O objetivo da regressão é fazer a previsões dos valores de uma \emph{target variable} \(t\) dado o valor de uma 
+O objetivo da regressão é fazer a previsões dos valores de uma \emph{target variable} \(t\) dado o valor de uma
 \emph{input variable} \(\bf x\). No geral \(\bf x\) é um vetor de dimensão qualquer, mas tratarei aqui apenas do
-caso em que \( \bf x \) tem dimensão 1. 
+caso em que \( \bf x \) tem dimensão 1.
 
 Dado um conjunto de dados composto de observações \( \{ \textbf{x}_n \} \) e suas respectivas
 \emph{target variables} \( \{t_n\} \), o que se pretende fazer é a previsão do valor de \(t\)
@@ -33,7 +33,7 @@ dado um valor de \(\bf x\) que não necessariamente está presente nas observaç
 quer-se encontrar uma função \( y(\textbf{x}) \) que associa cada valor possível de \(\bf x\) a uma previsão de
 \(t\).
 
-A função \( y(\textbf{x}) \) pode ser encontrada através do ajuste de parâmetros de uma função 
+A função \( y(\textbf{x}) \) pode ser encontrada através do ajuste de parâmetros de uma função
 \( y(\textbf{x}, \textbf{w}) \), onde \( \textbf{w} \) é um vetor de parâmetros ajustáveis. Os valores
 finais dos parâmetros ajustáveis \( \textbf{w}_f \) devem ser escolhidos de maneira a minimizar
 (ou quase isso) o valor de \( \mathcal{L}(\textbf{w}) \), onde \( \mathcal{L} \) é uma função de perda
@@ -44,9 +44,8 @@ Um método pelo qual os parâmetros ajustáveis podem ser atualizados é o da \e
 são modificados de maneira iterativa na direção do negativo do gradiente da função de perda,
 \[ \textbf{w}_{n + 1} = \textbf{w}_n - \lambda \nabla \mathcal{L}(\textbf{w}) \]
 ou seja, a cada passo os parâmetros ajustáveis \( \textbf{w} \) são modificados de maneira a diminuir o valor da
-função de perda \( \mathcal{L}(\textbf{w}) \). Em alguns casos, porém, uma formula fechada para os valores ótimos de \( \textbf{w} \)
+função de perda \( \mathcal{L}(\textbf{w}) \). Em alguns casos, porém, uma fórmula fechada para os valores ótimos de \( \textbf{w} \)
 pode ser encontrada, como será visto mais adiante.
-
 
 \section{Modelos Lineares de Regressão}
 
@@ -64,126 +63,124 @@ de observação, para gerar um valor que representa o quão adequada é a escolh
 \[ \mathcal{L}(\textbf{w}) = \frac{1}{2} \sum_{n=1}^{N} \{ t_n - y(\textbf{x}_n, \textbf{w})\}^2 \]
 onde \(N\) é a quantidade de observações. Tal escolha de função de perda é justificada se assumirmos que os dados observados
 são gerados a partir de uma função determinística somada a um ruído gaussiano, o que é o caso, os dados artificiais gerados aqui
-são da forma \( t = \mathcal{N}(t | sin(x), \sigma) \). 
-
+são da forma \( t = \mathcal{N}(t | sin(x), \sigma) \).
 
 Essa escolha de função de perda, combinada ao fato de \( y(\textbf{x}, \textbf{w}) = \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \) ser linear
-em relação à \( \textbf{w} \), nos leva à sequinte equação para o gradiente da função de perda
+em relação à \( \textbf{w} \), nos leva à seguinte equação para o gradiente da função de perda
 \[ \nabla \mathcal{L}(\textbf{w}) = \sum_{n=1}^{N} \{ t_n - \textbf{w}^T \boldsymbol{\phi}(\textbf{x}_n) \} \boldsymbol{\phi}(\textbf{x}_n)^T \]
 
 Seja
 \[ \boldsymbol{\Phi} = \begin{bmatrix}
-    \phi_0(x_0) & \phi_1(x_0) & \dotsb & \phi_{M-1}(x_0) \\
-    \phi_0(x_1) & \phi_1(x_1) & \dotsb & \phi_{M-1}(x_1) \\
-    \vdots & \vdots & \ddots & \vdots \\
-    \phi_0(x_n) & \phi_1(x_n) & \dotsb & \phi_{M-1}(x_n)
+\phi_0(x_0) & \phi_1(x_0) & \dotsb & \phi_{M-1}(x_0) \\
+\phi_0(x_1) & \phi_1(x_1) & \dotsb & \phi_{M-1}(x_1) \\
+\vdots & \vdots & \ddots & \vdots \\
+\phi_0(x_n) & \phi_1(x_n) & \dotsb & \phi_{M-1}(x_n)
 \end{bmatrix},
 \]
-a equação anterior para o gradiente da função de perda pode ser reescrita da seguite maneira:
+a equação anterior para o gradiente da função de perda pode ser reescrita da seguinte maneira:
 \[
-    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi}
+\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi}
 \]
 expandindo as matrizes,
 \[
-    \nabla \mathcal{L}(\textbf{w}) = 
-    \begin{bmatrix} t_0 - \textbf{w}^T \boldsymbol{\phi}(x_0), \dotsb, t_n - \textbf{w}^T \boldsymbol{\phi}(x_n)\end{bmatrix}
-    \begin{bmatrix}
-        \phi_0(x_0) & \dotsb & \phi_{M-1}(x_0) \\
-        \vdots & \ddots & \vdots \\
-        \phi_0(x_n) & \dotsb & \phi_{M-1}(x_n)
-    \end{bmatrix}
+\nabla \mathcal{L}(\textbf{w}) =
+\begin{bmatrix} t_0 - \textbf{w}^T \boldsymbol{\phi}(x_0), \dotsb, t_n - \textbf{w}^T \boldsymbol{\phi}(x_n)\end{bmatrix}
+\begin{bmatrix}
+\phi_0(x_0) & \dotsb & \phi_{M-1}(x_0) \\
+\vdots & \ddots & \vdots \\
+\phi_0(x_n) & \dotsb & \phi_{M-1}(x_n)
+\end{bmatrix}
 \]
 fazendo o gradiente da função de perda igual à zero temos,
 \[
-    (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} = 0
+(\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} = 0
 \]
 \[
-    \textbf{t}^T \boldsymbol{\Phi} - \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = 0
+\textbf{t}^T \boldsymbol{\Phi} - \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = 0
 \]
 \[
-    \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = \textbf{t}^T \boldsymbol{\Phi}
+\textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} = \textbf{t}^T \boldsymbol{\Phi}
 \]
 \[
-    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^T
+\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi})^{-1} \boldsymbol{\Phi}^T
 \]
-uma formula fechada para os valores ótimos de \( \textbf{w} \).
+uma fórmula fechada para os valores ótimos de \( \textbf{w} \).
 
 \section{Regularização}
 
-Se o modelo sendo ajustado é flexível demais para a quantidade de dados diponíveis, o resultado final
+Se o modelo sendo ajustado é flexível demais para a quantidade de dados disponíveis, o resultado
 é uma curva cheia de mudanças bruscas que falha em capturar o padrão principal presente nos dados, pois,
-sendo flexivel demais, se adapta ao ruído dos dados que faz ofuscar o padrão geral. Esse problema é
+sendo flexível demais, se adapta ao ruído nos dados o que faz ofuscar o padrão geral. Esse problema é
 denominado \emph{overfitting}.
 
-Uma maneira de lidar com o problema de \emph{overfitting} é a penalização de valores muito grandes para 
-os parametros \( \textbf{w} \). Uma maneira simples de fazer isso é adicionar a soma dos quadrados dos 
+Uma maneira de lidar com o problema de \emph{overfitting} é a penalização de valores muito grandes para
+os parâmetros \( \textbf{w} \). Uma maneira simples de fazer isso é adicionar a soma dos quadrados dos
 parametros \( \textbf{w}^T \textbf{w} \) a função de perda
 \[ \mathcal{L}(\textbf{w}) = \frac{1}{2} \sum_{n=1}^{N} \{ t_n - y(\textbf{x}_n, \textbf{w})\}^2 + \frac{1}{2} \lambda \textbf{w}^T \textbf{w} \]
 onde \( \lambda \) é o coeficiente de regularização, que controla a força da penalização aplicada.
 
-Da adiçao do fator do termo de regularização na função de perda, resulta o sequinte gradiente
+Da adição do fator do termo de regularização na função de perda, resulta o seguinte gradiente
 \[
-    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T
+\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T
 \]
 A vantagem de se utilizar a soma dos quadrados como termo de regularização é que a função de perda resultante
-ainda é uma função quadratica do vetor de parametros \( \textbf{w} \), e portanto, possui formula fechada para
+ainda é uma função quadrática do vetor de parâmetros \( \textbf{w} \), portanto, possui formula fechada para
 os valores ótimos de \( \textbf{w} \)
+\begin{gather}
+\nonumber
+(\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T = 0              \\ \nonumber
+\textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \textbf{w}^T = \textbf{t}^T \boldsymbol{\Phi}  \\
+\boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}      \\ \nonumber
+\boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w} - \lambda I_M \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}  \\ \nonumber
+(\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M) \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}
+\end{gather}
 \begin{equation}
-    \begin{aligned}
-        (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T = 0               \\
-        \textbf{w}^T \boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \textbf{w}^T = \textbf{t}^T \boldsymbol{\Phi}   \\
-        \boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w}  - \lambda  \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}     \\
-        \boldsymbol{\Phi}^T \boldsymbol{\Phi} \textbf{w}  - \lambda I_M \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}  \\
-        (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M) \textbf{w} = \boldsymbol{\Phi}^T \textbf{t}       
-    \end{aligned}     
-\end{equation}
-\begin{equation}
-    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M)^{-1} \boldsymbol{\Phi}^T \textbf{t}
+\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda I_M)^{-1} \boldsymbol{\Phi}^T \textbf{t}
 \end{equation}
 
-A equação (2) contém um erro de sinal, por algum motivo o resultado que segue do desenvolvimento seguido em (1) tem o termo
-\( - \lambda I_M \) enquanto no livro esse termo é possitivo. Não consegui entender de onde surgiu esse erro, mas não tem muita
-importancia, visto que o termo ja esta sendo multiplicado por um fator \( \lambda \).
+A equação (2) contém um erro de sinal, por algum motivo o resultado que segue do desenvolvimento em (1) tem o termo
+\( - \lambda I_M \) enquanto no livro esse termo é positivo. Não consegui entender de onde surgiu esse erro, mas não tem muita
+importância, visto que o termo já esta sendo multiplicado por um fator \( \lambda \).
 
 \section{Penalização de curvatura}
 
-Me veio a ideia de que as curvas de regressão poderiam ser feitas mais suaves se minimizar-mos, além do erro, a derivada
+Me veio a ideia de que as curvas de regressão poderiam ser feitas mais suaves se minimizarmos, além do erro, a derivada
 de segunda ordem da curva \( y(\textbf{x}, \textbf{w}) = \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) \). Para tal, adiciona-se
 o seguinte termo à função de perda
 \begin{equation}
-    \int_{a}^{b} \bigg( \frac{d^2}{dx^2} [ \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) ] \bigg)^2 dx 
+\int_{a}^{b} \bigg( \frac{d^2}{dx^2} [ \textbf{w}^T \boldsymbol{\phi}(\textbf{x}) ] \bigg)^2 dx
 \end{equation}
 o intervalo \( [a, b] \) é o intervalo relevante para a regressão.
 
-A rigor, o termo em (3) não representa corretamente a curvatura de \( y(\textbf{x}, \textbf{w}) \), a representação 
+A rigor, o termo em (3) não representa corretamente a curvatura de \( y(\textbf{x}, \textbf{w}) \), a representação
 correta utilizaria o módulo da derivada segunda de \( y \) a fim de penalizar tanto as curvas convexas quanto as concavas, ao
-invés do quadrado; o quadrado é mais coveniente no entanto.
+invés do quadrado; o quadrado é mais coveniente, no entanto.
 
 Da adição de termo (3) na função de perda resulta
 \begin{equation}
-    \nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T \boldsymbol{\Phi}'' 
+\nabla \mathcal{L}(\textbf{w}) = (\textbf{t}^T - \textbf{w}^T \boldsymbol{\Phi}^T) \boldsymbol{\Phi} + \lambda \textbf{w}^T \boldsymbol{\Phi}''
 \end{equation}
-onde 
+onde
 \[
-    \boldsymbol{\Phi}'' = 
-    \begin{bmatrix}
-        \int \phi''_0(x) \phi''_0(x) dx  &  \int \phi''_0(x) \phi''_1(x) dx  &  \dotsb  & \int \phi''_0(x) \phi''_n(x) dx \\
-        \int \phi''_1(x) \phi''_0(x) dx  &  \int \phi''_1(x) \phi''_1(x) dx  &  \dotsb  & \int \phi''_0(x) \phi''_0(x) dx \\
-        \vdots & \vdots & \ddots & \vdots \\
-        \int \phi''_n(x) \phi''_0(x) dx & \int \phi''_n(x) \phi''_1(x) dx & \dotsb & \int \phi''_n(x) \phi''_n(x) dx
-    \end{bmatrix}
+\boldsymbol{\Phi}'' =
+\begin{bmatrix}
+\int \phi''_0(x) \phi''_0(x) dx & \int \phi''_0(x) \phi''_1(x) dx & \dotsb & \int \phi''_0(x) \phi''_n(x) dx \\
+\int \phi''_1(x) \phi''_0(x) dx & \int \phi''_1(x) \phi''_1(x) dx & \dotsb & \int \phi''_0(x) \phi''_0(x) dx \\
+\vdots & \vdots & \ddots & \vdots \\
+\int \phi''_n(x) \phi''_0(x) dx & \int \phi''_n(x) \phi''_1(x) dx & \dotsb & \int \phi''_n(x) \phi''_n(x) dx
+\end{bmatrix}
 \]
 
-De maneira similar aos casos anteriores, uma formula fechada para \( \textbf{w} \) pode ser encontrada
+De maneira similar aos casos anteriores, uma fórmula fechada para \( \textbf{w} \) pode ser encontrada
 \[
-    \textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \boldsymbol{\Phi}'' )^{-1} \boldsymbol{\Phi}^T \textbf{t}
+\textbf{w} = (\boldsymbol{\Phi}^T \boldsymbol{\Phi} - \lambda \boldsymbol{\Phi}'' )^{-1} \boldsymbol{\Phi}^T \textbf{t}
 \]
 como em (1) essa equação também provavelmente tem um erro de sinal.
 
 A título de exemplo, quando as bases são polinômios \( \phi_i(x) = x^i \) os elementos \( \phi''_{i, j} \) de \( \boldsymbol{\Phi}'' \)
 são
 \[
-    \phi''_{i, j} = \Bigg(\frac{(j^2 - j)(i^2 - i)x^{i+j-3}}{i+j-3} \Bigg) \biggr\rvert_{a}^{b}
+\phi''_{i, j} = \Bigg(\frac{(j^2 - j)(i^2 - i)x^{i+j-3}}{i+j-3} \Bigg) \biggr\rvert_{a}^{b}
 \]
 
 \section{Referências}
