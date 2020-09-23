@@ -1,4 +1,4 @@
-## Dependencias
+## Dependências
 numpy e matplotlib
 
 ## Demos
